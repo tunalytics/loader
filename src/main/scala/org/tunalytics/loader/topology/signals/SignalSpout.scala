@@ -15,12 +15,13 @@ class SignalSpout extends BaseRichSpout {
     private var context: TopologyContext = _
     private var collector: SpoutOutputCollector = _
 
-    private var index: Integer = 1
+    private var index: Integer = 0
 
     override def nextTuple() {
       Thread.sleep(1000)
-      collector.emit(new Values("signal message #" + index))
-      index += 1;
+      val message = nextMessage()
+      collector.emit(new Values(message))
+      println("Signal emitted: [" + message + "]")
     }
 
     override def declareOutputFields(declarer: OutputFieldsDeclarer) {
@@ -32,5 +33,10 @@ class SignalSpout extends BaseRichSpout {
         this.confgiguration = configuration
         this.context = context
         this.collector = collector
+    }
+
+    private def nextMessage(): String = {
+        index += 1
+        "signal #" + index
     }
 }
