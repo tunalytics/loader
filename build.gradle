@@ -1,4 +1,7 @@
 apply plugin: 'scala'
+apply plugin: 'application'
+
+mainClassName = 'org.tunalytics.loader.Application'
 
 repositories {
     mavenCentral()
@@ -7,5 +10,4 @@ repositories {
 dependencies {
     compile 'org.scala-lang:scala-library:2.11.7'
     compile 'org.apache.storm:storm-core:0.10.0'
-
 }
