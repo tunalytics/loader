@@ -9,6 +9,7 @@ import backtype.storm.topology.base.BaseRichSpout
 import backtype.storm.tuple.Fields
 import backtype.storm.tuple.Values
 
+// FIXME: remove this class in production-ready version
 class SignalSpout extends BaseRichSpout {
 
     private var confgiguration: Map[_,_] = _

@@ -8,6 +8,7 @@ import backtype.storm.task.TopologyContext
 import backtype.storm.topology.OutputFieldsDeclarer
 import backtype.storm.topology.base.BaseRichBolt
 
+// FIXME: remove this class in production-ready version
 class SignalBolt extends BaseRichBolt {
 
     private var configuration: Map[_,_] = _
