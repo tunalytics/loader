@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.core.LoggerContext
 import org.apache.logging.log4j.core.config.LoggerConfig
-
 import org.apache.logging.log4j.status.StatusLogger
+
 import org.tunalytics.loader.topology.signals.SignalBolt
 import org.tunalytics.loader.topology.signals.SignalSpout
 
@@ -34,7 +34,7 @@ object Application {
         builder.setBolt("signalBolt", new SignalBolt, 1)
                 .shuffleGrouping("signalSpout")
 
-        logger.info("Submitting the topology...")
+        logger.info("Submitting the topology locally for 30 seconds...")
         val cluster = new LocalCluster
         cluster.submitTopology("testTopology", config, builder.createTopology())
 
