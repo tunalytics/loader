@@ -21,4 +21,5 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+    exclude 'log4j2.xml'
 }

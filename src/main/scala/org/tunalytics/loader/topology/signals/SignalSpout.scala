@@ -9,8 +9,13 @@ import backtype.storm.topology.base.BaseRichSpout
 import backtype.storm.tuple.Fields
 import backtype.storm.tuple.Values
 
+import org.apache.logging.log4j.LogManager
+
 // FIXME: remove this class in production-ready version
 class SignalSpout extends BaseRichSpout {
+
+    @transient
+    private lazy val logger = LogManager.getLogger()
 
     private var confgiguration: Map[_,_] = _
     private var context: TopologyContext = _
@@ -22,7 +27,7 @@ class SignalSpout extends BaseRichSpout {
       Thread.sleep(1000)
       val message = nextMessage()
       collector.emit(new Values(message))
-      println("Signal emitted: [" + message + "]")
+      logger.info("Signal emitted: [" + message + "]")
     }
 
     override def declareOutputFields(declarer: OutputFieldsDeclarer) {
@@ -31,6 +36,7 @@ class SignalSpout extends BaseRichSpout {
 
     override def open(configuration: Map[_, _], context: TopologyContext,
             collector: SpoutOutputCollector) {
+        logger.info("Preparing a signal spout...")
         this.confgiguration = configuration
         this.context = context
         this.collector = collector
