@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2016 Tunalytics Foundation
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      "http://www.apache.org/licenses/LICENSE-2.0".
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package org.tunalytics.loader.topology.signals
 
 import java.util.Map
@@ -11,8 +26,16 @@ import backtype.storm.tuple.Values
 
 import org.tunalytics.loader.logging.LoggerAware
 
-// FIXME: remove this class in production-ready version
+/**
+ * Signal emitting spout.
+ *
+ * For testing purposes! To be removed in production-ready version.
+ */
 class SignalSpout extends BaseRichSpout with LoggerAware {
+
+    // TODO: remove this class in production-ready version
+
+    logger.trace("instance created")
 
     private var confgiguration: Map[_,_] = _
     private var context: TopologyContext = _
@@ -21,26 +44,31 @@ class SignalSpout extends BaseRichSpout with LoggerAware {
     private var index: Integer = 0
 
     override def nextTuple() {
-      Thread.sleep(1000)
-      val message = nextMessage()
-      collector.emit(new Values(message))
-      logger.info("Signal emitted: [" + message + "]")
+        logger.trace("emitting new tuple...")
+        Thread.sleep(100)
+        val signal = nextSignal()
+        logger.debug("emitting: " + signal + "...")
+        collector.emit(new Values(signal))
+        logger.trace("tuple emitted")
     }
 
     override def declareOutputFields(declarer: OutputFieldsDeclarer) {
-        declarer.declare(new Fields("message"))
+        logger.trace("declaring fields...")
+        declarer.declare(new Fields("signal"))
+        logger.trace("fields declared")
     }
 
     override def open(configuration: Map[_, _], context: TopologyContext,
             collector: SpoutOutputCollector) {
-        logger.info("Preparing a signal spout...")
+        logger.trace("preparing...")
         this.confgiguration = configuration
         this.context = context
         this.collector = collector
+        logger.trace("prepared...")
     }
 
-    private def nextMessage(): String = {
+    private def nextSignal(): Signal = {
         index += 1
-        "signal #" + index
+        new Signal(new Message("serial #" + index))
     }
 }

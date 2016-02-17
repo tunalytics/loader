@@ -13,12 +13,16 @@ object LoggerConfigurator {
 
         StatusLogger.getLogger().setLevel(Level.OFF)
 
-        info("org.tunalytics.loader")
+        trace("org.tunalytics.loader")
 
         error("org.apache.storm")
         error("backtype.storm")
 
         context.updateLoggers;
+    }
+
+    private def trace(pattern: String) {
+        logger(Level.TRACE, pattern)
     }
 
     private def info(pattern: String) {

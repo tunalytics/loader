@@ -7,6 +7,8 @@ import backtype.storm.utils.Utils
 
 import org.tunalytics.loader.logging.LoggerAware
 import org.tunalytics.loader.logging.LoggerConfigurator
+import org.tunalytics.loader.topology.signals.Message
+import org.tunalytics.loader.topology.signals.Signal
 import org.tunalytics.loader.topology.signals.SignalBolt
 import org.tunalytics.loader.topology.signals.SignalSpout
 
@@ -21,6 +23,8 @@ object Application extends LoggerAware {
     private def submitSignalTopology {
 
         val config = new Config
+        config.registerSerialization(Signal.getClass)
+        config.registerSerialization(Message.getClass)
 
         val builder = new TopologyBuilder
         builder.setSpout("signalSpout", new SignalSpout, 1)
