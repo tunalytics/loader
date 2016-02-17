@@ -9,3 +9,5 @@ After it you can run the loader locally by executing:
 ```
 $ java -jar build/libs/loader.jar
 ```
+#### Miscellaneous
+Signal topology components (ones located inside of `.topology.signals` package) are for system protopyping / testing only and should be removed from any production-ready code.
