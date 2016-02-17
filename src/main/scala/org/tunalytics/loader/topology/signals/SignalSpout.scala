@@ -9,13 +9,10 @@ import backtype.storm.topology.base.BaseRichSpout
 import backtype.storm.tuple.Fields
 import backtype.storm.tuple.Values
 
-import org.apache.logging.log4j.LogManager
+import org.tunalytics.loader.logging.LoggerAware
 
 // FIXME: remove this class in production-ready version
-class SignalSpout extends BaseRichSpout {
-
-    @transient
-    private lazy val logger = LogManager.getLogger()
+class SignalSpout extends BaseRichSpout with LoggerAware {
 
     private var confgiguration: Map[_,_] = _
     private var context: TopologyContext = _

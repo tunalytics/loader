@@ -8,13 +8,10 @@ import backtype.storm.task.TopologyContext
 import backtype.storm.topology.OutputFieldsDeclarer
 import backtype.storm.topology.base.BaseRichBolt
 
-import org.apache.logging.log4j.LogManager
+import org.tunalytics.loader.logging.LoggerAware
 
 // FIXME: remove this class in production-ready version
-class SignalBolt extends BaseRichBolt {
-
-    @transient
-    private lazy val logger = LogManager.getLogger()
+class SignalBolt extends BaseRichBolt with LoggerAware {
 
     private var configuration: Map[_,_] = _
     private var context: TopologyContext = _
