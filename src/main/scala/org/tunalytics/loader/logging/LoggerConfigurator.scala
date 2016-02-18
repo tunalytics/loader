@@ -27,35 +27,16 @@ import org.apache.logging.log4j.status.StatusLogger
   */
 object LoggerConfigurator {
 
-  def configure() {
+  StatusLogger.getLogger.setLevel(Level.OFF)
 
-    StatusLogger.getLogger().setLevel(Level.OFF)
-
-    trace("org.tunalytics.loader")
-
-    error("org.apache.storm")
-    error("backtype.storm")
-
+  def use(configuration: LogConfiguration): Unit = {
+    logger(configuration.level, "org.tunalytics.loader")
+    logger(configuration.stormLevel, "org.apache.storm")
+    logger(configuration.stormLevel, "backtype.storm")
     context.updateLoggers;
   }
 
-  private def trace(pattern: String) {
-    logger(Level.TRACE, pattern)
-  }
-
-  private def info(pattern: String) {
-    logger(Level.INFO, pattern)
-  }
-
-  private def warn(pattern: String) {
-    logger(Level.WARN, pattern)
-  }
-
-  private def error(pattern: String) {
-    logger(Level.ERROR, pattern)
-  }
-
-  private def logger(level: Level, pattern: String) {
+  private def logger(level: Level, pattern: String): Unit = {
     val loader = new LoggerConfig
     loader.setParent(rootLoggerConfiguration)
     loader.setLevel(level)

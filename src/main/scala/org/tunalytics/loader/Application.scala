@@ -38,7 +38,8 @@ object Application extends LoggerAware {
     * @param arguments command line arguments.
     */
   def main(arguments: Array[String]): Unit = {
-    LoggerConfigurator.configure()
+    val configuration = ApplicationConfiguration.parse(arguments)
+    LoggerConfigurator.use(configuration.log)
     submitSignalTopology()
     // TODO: implement real topology building and submitting
   }
