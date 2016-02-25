@@ -1,0 +1,20 @@
+apply plugin: 'application'
+
+dependencies {
+    compile 'org.apache.storm:storm-core:0.10.0'
+}
+
+
+mainClassName = 'org.tunalytics.loader.transformer.Application'
+
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    exclude 'log4j2.xml'
+}
